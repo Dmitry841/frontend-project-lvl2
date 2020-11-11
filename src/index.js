@@ -8,24 +8,23 @@ const genDiff = (filepath1, filepath2) => {
   const unicKeys = commonKeys.reduce((acc, key) => {
     if (!acc.includes(key)) {
       acc.push(key);
-    };
+    }
     return acc;
   }, []);
   const difference = unicKeys.map((key) => {
-      if (!keys2.includes(key)) {
-        return `- ${key}: ${file1[key]}`;
-      } if (keys1.includes(key) && keys2.includes(key)) {
-          return file2[key] === file1[key] ? `  ${key}: ${file1[key]}`
-            : [`- ${key}: ${file1[key]}`, 
-               `+ ${key}: ${file2[key]}`];
-      } if (!keys1.includes(key)) {
-          return `+ ${key}: ${file2[key]}`;
-      }
+    if (!keys2.includes(key)) {
+      return `- ${key}: ${file1[key]}`;
+    } if (keys1.includes(key) && keys2.includes(key)) {
+      return file2[key] === file1[key] ? `  ${key}: ${file1[key]}`
+        : [`- ${key}: ${file1[key]}`, `+ ${key}: ${file2[key]}`];
+    } if (!keys1.includes(key)) {
+      return `+ ${key}: ${file2[key]}`;
+    }
   })
     .flat()
-      .map((item)=> `\n${item}`)
-        .join('');
+    .map((item) => `\n${item}`)
+    .join('');
   console.log(`{${difference}\n}`);
-  return;
+  return `{${difference}\n}`;
 };
 export default genDiff;
