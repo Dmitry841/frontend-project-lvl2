@@ -1,5 +1,5 @@
 import program from 'commander';
-import genDiff from './index.js';
+import showDiff from './index.js';
 
 export default () => {
   program
@@ -7,6 +7,6 @@ export default () => {
     .description('Compares two configuration files and shows a difference.')
     .option('-f, --format [type]', 'output format')
     .command('compare <filepath1> <filepath2>')
-    .action(genDiff);
+    .action(showDiff);
   program.parse(process.argv);
 };

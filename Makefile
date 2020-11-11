@@ -6,3 +6,5 @@ lint:
 	npx eslint .
 nodeV:
 	node -v
+test:
+	npx -n --experimental-vm-modules jest --watch
