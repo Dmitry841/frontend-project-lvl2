@@ -1,19 +1,12 @@
 import fs from 'fs';
-
-const getUnicItems = (data) => data.reduce((acc, item) => {
-  if (!acc.includes(item)) {
-    acc.push(item);
-  }
-  return acc;
-}, []);
-
-const getDataParse = (filepath) => JSON.parse(fs.readFileSync(filepath, 'utf-8'));
+import path from 'path';
+import _ from 'lodash';
+import { getDataFromJson, getDataFromYaml } from './parsers.js';
 
 const genDiff = (data1, data2) => {
   const keys1 = Object.keys(data1);
   const keys2 = Object.keys(data2);
-  const allKeys = keys1.concat(keys2).sort();
-  const commonKeys = getUnicItems(allKeys);
+  const commonKeys = _.union(keys1.concat(keys2).sort());
   const difference = commonKeys.map((key) => {
     if (!keys2.includes(key)) {
       return `- ${key}: ${data1[key]}`;
@@ -30,11 +23,13 @@ const genDiff = (data1, data2) => {
 };
 
 const showDiff = (filepath1, filepath2) => {
-  const data1 = getDataParse(filepath1);
-  const data2 = getDataParse(filepath2);
+  const data1 = path.extname(filepath1) === '.json'
+    ? getDataFromJson(filepath1) : getDataFromYaml(filepath1);
+  const data2 = path.extname(filepath2) === '.yml'
+    ? getDataFromYaml(filepath2) : getDataFromJson(filepath2);
   return genDiff(data1, data2);
 };
 
-export { getUnicItems, getDataParse, genDiff };
+export { genDiff };
 
 export default showDiff;
