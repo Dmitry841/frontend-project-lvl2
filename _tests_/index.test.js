@@ -5,6 +5,7 @@ import { genDiff } from '../src/index.js';
 import { getDataFromJson, getDataFromYaml } from '../src/parsers.js';
 import expected from '../_fixtures_/expected.flat.js';
 import expectedDeep from '../_fixtures_/expected.deep.js';
+import expectedFlat from '../_fixtures_/expected.flat.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -20,5 +21,5 @@ test('genDiffJson', () => {
 test('genDiffYml', () => {
   const data1 = getDataFromYaml(getFixturePath('file1.yml'));
   const data2 = getDataFromYaml(getFixturePath('file2.yml'));
-  expect(genDiff(data1, data2)).toEqual(expected());
+  expect(genDiff(data1, data2)).toEqual(expectedFlat());
 });
